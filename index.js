@@ -37,16 +37,19 @@ if (fs.existsSync(projectPath)) {
 
 try {
   const gitSpinner = ora("Downloading files...").start();
+
   // clone the repo into the project folder -> creates the new boilerplate
   await exec(`git clone --depth 1 ${git_repo} ${projectPath} --quiet`);
   gitSpinner.succeed();
 
   const cleanSpinner = ora("Removing useless files").start();
+
   // remove my git history
   const rmGit = rm(path.join(projectPath, ".git"), {
     recursive: true,
     force: true,
   });
+
   // remove the installation file
   const rmBin = rm(path.join(projectPath, "bin"), {
     recursive: true,
@@ -55,6 +58,7 @@ try {
   await Promise.all([rmGit, rmBin]);
 
   process.chdir(projectPath);
+
   // remove the packages needed for cli
   await exec("npm uninstall ora cli-spinners");
   cleanSpinner.succeed();
@@ -72,32 +76,3 @@ try {
   fs.rmSync(projectPath, { recursive: true, force: true });
   console.log(error);
 }
-
-// import { execSync } from "child_process";
-
-// const runCommand = (command) => {
-//   try {
-//     execSync(`${command}`, { stdio: "inherit" });
-//   } catch (e) {
-//     console.error(`Failed to execete ${command}`, e);
-//     return false;
-//   }
-//   return true;
-// };
-
-// const repoName = process.argv[2];
-// const gitCheckoutCommand = `git clone --depth 1 https://github.com/sahasawatE/abbot-init-nuxt3 ${repoName}`;
-// const installDepsCommand = `cd ${repoName} && yarn`;
-
-// console.log(`Cloning the, repository with name ${repoName}`);
-// const checkedOut = runCommand(gitCheckoutCommand);
-
-// if (!checkedOut) process.exit(-1);
-
-// console.log(`Installing dependencies for ${repoName}`);
-// const installedDeps = runCommand(installDepsCommand);
-// if (!installedDeps) process.exit(-1);
-
-// console.log(
-//   "Congratulations! Tou are ready. Follow the following commands to start",
-// );
