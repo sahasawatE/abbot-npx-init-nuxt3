@@ -23,7 +23,8 @@ const currentPath = process.cwd();
 const projectPath = path.join(currentPath, projectName);
 
 // TODO: change to your boilerplate repo
-const git_repo = "https://github.com/sahasawatE/abbot-init-nuxt3.git";
+const git_repo = "git@gitlabsvr.abbot.tech:module/nuxt3-template.git";
+// const git_repo = "https://github.com/sahasawatE/abbot-init-nuxt3.git";
 
 // create project directory
 if (fs.existsSync(projectPath)) {
