@@ -23,8 +23,25 @@ const currentPath = process.cwd();
 const projectPath = path.join(currentPath, projectName);
 
 // TODO: change to your boilerplate repo
-const git_repo = "git@gitlabsvr.abbot.tech:module/nuxt3-template.git";
-// const git_repo = "https://github.com/sahasawatE/abbot-init-nuxt3.git";
+let git_repo = "";
+const version = process.argv[3];
+
+if (!version) {
+  git_repo = "https://github.com/sahasawatE/abbot-init-nuxt3.git";
+} else {
+  if (version === "-abbot") {
+    git_repo = "git@gitlabsvr.abbot.tech:module/nuxt3-template.git";
+  } else {
+    console.log(
+      "The second argument has to be -abbot or you can leave it blank",
+    );
+    console.log("For example :");
+    console.log("    npx simple-ts-app my-app -abbot");
+    console.log("    ------ or ------");
+    console.log("    npx simple-ts-app my-app");
+    process.exit(1);
+  }
+}
 
 // create project directory
 if (fs.existsSync(projectPath)) {
